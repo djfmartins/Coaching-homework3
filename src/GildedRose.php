@@ -5,11 +5,17 @@ class GildedRose
 
     public function endOfDay(Item $item)
     {
-        $newSellIn = $item->sell_in;
-        $newQuality = $item->quality;
+        $sellIn = $item->sell_in;
+        $quality = $item->quality;
 
-        $newSellIn = $newSellIn - 1;
-        $newQuality = $newQuality - 1;
+        $qualityDecreaseFactor = 1;
+
+        if ($sellIn < 0) {
+            $qualityDecreaseFactor = 2;
+        }
+
+        $newSellIn = $sellIn - 1;
+        $newQuality = $quality - (1 * $qualityDecreaseFactor);
 
         return new Item($item->name, $newSellIn, $newQuality);
     }

@@ -16,4 +16,18 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
             $result
         );
     }
+
+    public function testSellDayHasPassed()
+    {
+        $itemName = "Random Item";
+        $item = new Item($itemName, -3, 5);
+
+        $gildedRose = new GildedRose();
+        $result = $gildedRose->endOfDay($item);
+
+        $this->assertEquals(
+            new Item($itemName, -4, 3),
+            $result
+        );
+    }
 }
