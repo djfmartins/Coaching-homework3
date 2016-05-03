@@ -42,6 +42,10 @@ class GildedRose
         $newSellIn = $sellIn - 1;
         $newQuality = $quality - (1 * $qualityDecreaseFactor);
 
+        if ($itemName === self::ITEM_BACKSTAGE_PASSES and $newSellIn < 0) {
+            $newQuality = 0;
+        }
+
         $newQuality = $newQuality < 0 ? 0 : $newQuality;
         $newQuality = $newQuality > 50 ? 50 : $newQuality;
 
