@@ -1,7 +1,5 @@
 <?php
 
-namespace Homework3;
-
 class GildedRoseTest extends \PHPUnit_Framework_TestCase
 {
     public function testItemQualityDecreasesWhenDayPasses()

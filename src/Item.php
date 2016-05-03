@@ -1,7 +1,5 @@
 <?php
 
-namespace Homework3;
-
 class Item
 {
 
