@@ -24,8 +24,15 @@ class GildedRose
 
         $qualityDecreaseFactor = 1;
 
-        if ($itemName === self::ITEM_AGED_BRIE || $itemName === self::ITEM_BACKSTAGE_PASSES) {
+        if ($itemName === self::ITEM_AGED_BRIE) {
             $qualityDecreaseFactor = -1;
+        } elseif ($itemName === self::ITEM_BACKSTAGE_PASSES) {
+            $qualityDecreaseFactor = -1;
+
+            if ($sellIn <= 10) {
+                $qualityDecreaseFactor = -2;
+            }
+
         } elseif ($sellIn < 0) {
             $qualityDecreaseFactor = 2;
         }
