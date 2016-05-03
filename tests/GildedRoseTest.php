@@ -67,4 +67,17 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
             $result
         );
     }
+
+    public function testQualityNeverMoreThan50()
+    {
+        $item = new Item(GildedRose::ITEM_AGED_BRIE, 6, 50);
+
+        $gildedRose = new GildedRose();
+        $result = $gildedRose->endOfDay($item);
+
+        $this->assertEquals(
+            new Item(GildedRose::ITEM_AGED_BRIE, 5, 50),
+            $result
+        );
+    }
 }

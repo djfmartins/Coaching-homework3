@@ -29,6 +29,7 @@ class GildedRose
         $newQuality = $quality - (1 * $qualityDecreaseFactor);
 
         $newQuality = $newQuality < 0 ? 0 : $newQuality;
+        $newQuality = $newQuality > 50 ? 50 : $newQuality;
 
         return new Item($item->name, $newSellIn, $newQuality);
     }
