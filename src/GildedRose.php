@@ -17,6 +17,8 @@ class GildedRose
         $newSellIn = $sellIn - 1;
         $newQuality = $quality - (1 * $qualityDecreaseFactor);
 
+        $newQuality = $newQuality < 0 ? 0 : $newQuality;
+
         return new Item($item->name, $newSellIn, $newQuality);
     }
 }
