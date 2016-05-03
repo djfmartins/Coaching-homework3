@@ -1,5 +1,7 @@
 <?php
 
+namespace Homework3;
+
 class GildedRose
 {
     /**
