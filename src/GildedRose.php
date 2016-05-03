@@ -6,6 +6,7 @@ class GildedRose
     const ITEM_RANDOM = "Random Item";
     const ITEM_AGED_BRIE = "Aged Brie";
     const ITEM_SULFURAS = "Sulfuras";
+    const ITEM_BACKSTAGE_PASSES = "Backstage passes";
 
     public function endOfDay(Item $item)
     {
@@ -17,13 +18,13 @@ class GildedRose
             if ($quality !== 80) {
                 throw new Exception("Sulfuras has always quality 80");
             }
-            
+
             return new Item($item->name, $sellIn, $quality);
         }
 
         $qualityDecreaseFactor = 1;
 
-        if ($itemName === self::ITEM_AGED_BRIE) {
+        if ($itemName === self::ITEM_AGED_BRIE || $itemName === self::ITEM_BACKSTAGE_PASSES) {
             $qualityDecreaseFactor = -1;
         } elseif ($sellIn < 0) {
             $qualityDecreaseFactor = 2;
