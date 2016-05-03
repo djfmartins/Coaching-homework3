@@ -5,56 +5,65 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
 
     public function testRandomItemEndOfDay()
     {
-        $itemName = "Random Item";
-        $item = new Item($itemName, 5, 5);
+        $item = new Item(GildedRose::ITEM_RANDOM, 5, 5);
 
         $gildedRose = new GildedRose();
         $result = $gildedRose->endOfDay($item);
 
         $this->assertEquals(
-            new Item($itemName, 4, 4),
+            new Item(GildedRose::ITEM_RANDOM, 4, 4),
             $result
         );
     }
 
     public function testSellDayHasPassed()
     {
-        $itemName = "Random Item";
-        $item = new Item($itemName, -3, 5);
+        $item = new Item(GildedRose::ITEM_RANDOM, -3, 5);
 
         $gildedRose = new GildedRose();
         $result = $gildedRose->endOfDay($item);
 
         $this->assertEquals(
-            new Item($itemName, -4, 3),
+            new Item(GildedRose::ITEM_RANDOM, -4, 3),
             $result
         );
     }
 
     public function testQualityIsNeverNegative()
     {
-        $itemName = "Random Item";
-        $item = new Item($itemName, 10, 0);
+        $item = new Item(GildedRose::ITEM_RANDOM, 10, 0);
 
         $gildedRose = new GildedRose();
         $result = $gildedRose->endOfDay($item);
 
         $this->assertEquals(
-            new Item($itemName, 9, 0),
+            new Item(GildedRose::ITEM_RANDOM, 9, 0),
             $result
         );
     }
 
     public function testAgedBrieIncreasesQualityTheOlderItGets()
     {
-        $itemName = "Aged Brie";
-        $item = new Item($itemName, 10, 3);
+        $item = new Item(GildedRose::ITEM_AGED_BRIE, 10, 3);
 
         $gildedRose = new GildedRose();
         $result = $gildedRose->endOfDay($item);
 
         $this->assertEquals(
-            new Item($itemName, 9, 4),
+            new Item(GildedRose::ITEM_AGED_BRIE, 9, 4),
+            $result
+        );
+    }
+
+    public function testSulfurasIsLegendary()
+    {
+        $item = new Item(GildedRose::ITEM_SULFURAS, null, 8);
+
+        $gildedRose = new GildedRose();
+        $result = $gildedRose->endOfDay($item);
+
+        $this->assertEquals(
+            new Item(GildedRose::ITEM_SULFURAS, null, 8),
             $result
         );
     }
