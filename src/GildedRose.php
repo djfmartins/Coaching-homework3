@@ -29,7 +29,9 @@ class GildedRose
         } elseif ($itemName === self::ITEM_BACKSTAGE_PASSES) {
             $qualityDecreaseFactor = -1;
 
-            if ($sellIn <= 10) {
+            if ($sellIn <= 5) {
+                $qualityDecreaseFactor = -3;
+            } elseif ($sellIn <= 10) {
                 $qualityDecreaseFactor = -2;
             }
 

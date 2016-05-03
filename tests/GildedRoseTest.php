@@ -123,4 +123,17 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
             $result
         );
     }
+
+    public function testBackstagePassesIncreasesQualityBy3When5DaysOrLess()
+    {
+        $item = new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 5, 14);
+
+        $gildedRose = new GildedRose();
+        $result = $gildedRose->endOfDay($item);
+
+        $this->assertEquals(
+            new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 4, 17),
+            $result
+        );
+    }
 }
