@@ -14,6 +14,10 @@ class GildedRose
         $itemName = $item->name;
 
         if ($itemName === self::ITEM_SULFURAS) {
+            if ($quality !== 80) {
+                throw new Exception("Sulfuras has always quality 80");
+            }
+            
             return new Item($item->name, $sellIn, $quality);
         }
 

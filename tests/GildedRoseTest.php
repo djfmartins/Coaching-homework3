@@ -55,6 +55,10 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Sulfuras has always quality 80
+     */
     public function testSulfurasIsLegendary()
     {
         $item = new Item(GildedRose::ITEM_SULFURAS, null, 8);
@@ -77,6 +81,19 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Item(GildedRose::ITEM_AGED_BRIE, 5, 50),
+            $result
+        );
+    }
+
+    public function testSulfurasHasAlwaysQuality80()
+    {
+        $item = new Item(GildedRose::ITEM_SULFURAS, null, 80);
+
+        $gildedRose = new GildedRose();
+        $result = $gildedRose->endOfDay($item);
+
+        $this->assertEquals(
+            new Item(GildedRose::ITEM_SULFURAS, null, 80),
             $result
         );
     }
