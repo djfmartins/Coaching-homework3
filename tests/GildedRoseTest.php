@@ -44,4 +44,18 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
             $result
         );
     }
+
+    public function testAgedBrieIncreasesQualityTheOlderItGets()
+    {
+        $itemName = "Aged Brie";
+        $item = new Item($itemName, 10, 3);
+
+        $gildedRose = new GildedRose();
+        $result = $gildedRose->endOfDay($item);
+
+        $this->assertEquals(
+            new Item($itemName, 9, 4),
+            $result
+        );
+    }
 }

@@ -7,10 +7,13 @@ class GildedRose
     {
         $sellIn = $item->sell_in;
         $quality = $item->quality;
+        $itemName = $item->name;
 
         $qualityDecreaseFactor = 1;
 
-        if ($sellIn < 0) {
+        if ($itemName === 'Aged Brie') {
+            $qualityDecreaseFactor = -1;
+        } elseif ($sellIn < 0) {
             $qualityDecreaseFactor = 2;
         }
 
