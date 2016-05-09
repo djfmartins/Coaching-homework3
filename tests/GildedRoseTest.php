@@ -3,15 +3,15 @@
 class GildedRoseTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testRandomItemEndOfDay()
+    public function testDefaultItemEndOfDay()
     {
         $item = new Item(GildedRose::ITEM_RANDOM, 5, 5);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $defaultItem = new DefaultItem($item);
+        $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_RANDOM, 4, 4),
+            new DefaultItem(new Item(GildedRose::ITEM_RANDOM, 4, 4)),
             $result
         );
     }
