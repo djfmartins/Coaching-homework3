@@ -5,52 +5,52 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
 
     public function testDefaultItemEndOfDay()
     {
-        $item = new Item(GildedRose::ITEM_RANDOM, 5, 5);
+        $item = new Item(DegradableItem::ITEM_RANDOM, 5, 5);
 
         $defaultItem = new DefaultItem($item);
         $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new DefaultItem(new Item(GildedRose::ITEM_RANDOM, 4, 4)),
+            new DefaultItem(new Item(DegradableItem::ITEM_RANDOM, 4, 4)),
             $result
         );
     }
 
     public function testSellDayHasPassed()
     {
-        $item = new Item(GildedRose::ITEM_RANDOM, -3, 5);
+        $item = new Item(DegradableItem::ITEM_RANDOM, -3, 5);
 
         $defaultItem = new DefaultItem($item);
         $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new DefaultItem(new Item(GildedRose::ITEM_RANDOM, -4, 3)),
+            new DefaultItem(new Item(DegradableItem::ITEM_RANDOM, -4, 3)),
             $result
         );
     }
 
     public function testQualityIsNeverNegative()
     {
-        $item = new Item(GildedRose::ITEM_RANDOM, 10, 0);
+        $item = new Item(DegradableItem::ITEM_RANDOM, 10, 0);
 
         $defaultItem = new DefaultItem($item);
         $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new DefaultItem(new Item(GildedRose::ITEM_RANDOM, 9, 0)),
+            new DefaultItem(new Item(DegradableItem::ITEM_RANDOM, 9, 0)),
             $result
         );
     }
 
     public function testAgedBrieIncreasesQualityTheOlderItGets()
     {
-        $item = new Item(GildedRose::ITEM_AGED_BRIE, 10, 3);
+        $item = new Item(DegradableItem::ITEM_AGED_BRIE, 10, 3);
 
         $agedBrie = new AgedBrie($item);
         $result = $agedBrie->endOfDay($item);
 
         $this->assertEquals(
-            new AgedBrie(new Item(GildedRose::ITEM_AGED_BRIE, 9, 4)),
+            new AgedBrie(new Item(DegradableItem::ITEM_AGED_BRIE, 9, 4)),
             $result
         );
     }
@@ -61,91 +61,91 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
      */
     public function testSulfurasIsLegendary()
     {
-        $item = new Item(GildedRose::ITEM_SULFURAS, null, 8);
+        $item = new Item(DegradableItem::ITEM_SULFURAS, null, 8);
 
         $sulfuras = new Sulfuras($item);
         $result = $sulfuras->endOfDay($item);
 
         $this->assertEquals(
-            new Sulfuras(new Item(GildedRose::ITEM_SULFURAS, null, 8)),
+            new Sulfuras(new Item(DegradableItem::ITEM_SULFURAS, null, 8)),
             $result
         );
     }
 
     public function testQualityNeverMoreThan50()
     {
-        $item = new Item(GildedRose::ITEM_AGED_BRIE, 6, 50);
+        $item = new Item(DegradableItem::ITEM_AGED_BRIE, 6, 50);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $agedBrie = new AgedBrie($item);
+        $result = $agedBrie->endOfDay();
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_AGED_BRIE, 5, 50),
+            new AgedBrie(new Item(DegradableItem::ITEM_AGED_BRIE, 5, 50)),
             $result
         );
     }
 
     public function testSulfurasHasAlwaysQuality80()
     {
-        $item = new Item(GildedRose::ITEM_SULFURAS, null, 80);
+        $item = new Item(DegradableItem::ITEM_SULFURAS, null, 80);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $sulfuras = new Sulfuras($item);
+        $result = $sulfuras->endOfDay();
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_SULFURAS, null, 80),
+            new Sulfuras(new Item(DegradableItem::ITEM_SULFURAS, null, 80)),
             $result
         );
     }
 
     public function testBackstagePassesIncreasesQuality()
     {
-        $item = new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 30, 20);
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 30, 20);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $backstagePasses = new BackstagePasses($item);
+        $result = $backstagePasses->endOfDay();
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 29, 21),
+            new BackstagePasses(new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 29, 21)),
             $result
         );
     }
 
     public function testBackstagePassesIncreasesQualityBy2When10DaysOrLess()
     {
-        $item = new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 10, 25);
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 10, 25);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $backstagePasses = new BackstagePasses($item);
+        $result = $backstagePasses->endOfDay();
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 9, 27),
+            new BackstagePasses(new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 9, 27)),
             $result
         );
     }
 
     public function testBackstagePassesIncreasesQualityBy3When5DaysOrLess()
     {
-        $item = new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 5, 14);
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 5, 14);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $backstagePasses = new BackstagePasses($item);
+        $result = $backstagePasses->endOfDay();
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 4, 17),
+            new BackstagePasses(new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 4, 17)),
             $result
         );
     }
 
     public function testBackstagePassesQualityGoesTo0AfterConcert()
     {
-        $item = new Item(GildedRose::ITEM_BACKSTAGE_PASSES, 0, 14);
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 0, 14);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $backstagePasses = new BackstagePasses($item);
+        $result = $backstagePasses->endOfDay();
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_BACKSTAGE_PASSES, -1, 0),
+            new BackstagePasses(new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, -1, 0)),
             $result
         );
     }

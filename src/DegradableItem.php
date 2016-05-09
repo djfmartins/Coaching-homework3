@@ -2,6 +2,11 @@
 
 abstract class DegradableItem
 {
+    const ITEM_RANDOM = "Random Item";
+    const ITEM_AGED_BRIE = "Aged Brie";
+    const ITEM_SULFURAS = "Sulfuras";
+    const ITEM_BACKSTAGE_PASSES = "Backstage passes";
+    
     /** @var Item */
     protected $item;
 
