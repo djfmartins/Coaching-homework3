@@ -20,11 +20,11 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
     {
         $item = new Item(GildedRose::ITEM_RANDOM, -3, 5);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $defaultItem = new DefaultItem($item);
+        $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_RANDOM, -4, 3),
+            new DefaultItem(new Item(GildedRose::ITEM_RANDOM, -4, 3)),
             $result
         );
     }
@@ -33,11 +33,11 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
     {
         $item = new Item(GildedRose::ITEM_RANDOM, 10, 0);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $defaultItem = new DefaultItem($item);
+        $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_RANDOM, 9, 0),
+            new DefaultItem(new Item(GildedRose::ITEM_RANDOM, 9, 0)),
             $result
         );
     }
