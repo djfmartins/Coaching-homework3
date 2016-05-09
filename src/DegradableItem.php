@@ -42,14 +42,14 @@ abstract class DegradableItem
         $this->item->quality = $quality;
         $this->item->sell_in--;
 
-        return new $this($this->item);
+        return new $this($this->item, $this->isConjured);
     }
 
     abstract function calculateQualityAtEndOfDay();
 
     /**
      * @param int $quality
-     * 
+     *
      * @return int
      */
     private function applyQualityChangeAgain($quality)
@@ -58,5 +58,25 @@ abstract class DegradableItem
         $changeOfQuality = $currentQuality - $quality;
 
         return $quality - $changeOfQuality;
+    }
+
+    public function getQuality()
+    {
+        return $this->item->quality;
+    }
+
+    public function getSellIn()
+    {
+        return $this->item->sell_in;
+    }
+
+    public function getName()
+    {
+        return $this->item->name;
+    }
+
+    public function isConjured()
+    {
+        return $this->isConjured;
     }
 }

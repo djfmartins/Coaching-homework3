@@ -160,7 +160,174 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
         $result = $defaultItem->endOfDay($item);
 
         $this->assertEquals(
-            new DefaultItem(new Item(DegradableItem::ITEM_RANDOM, 4, 3)),
+            new DefaultItem(
+                new Item(DegradableItem::ITEM_RANDOM, 4, 3),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testSellDayHasPassedConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_RANDOM, -3, 5);
+
+        $defaultItem = new DefaultItem($item, DegradableItem::IS_CONJURED);
+        $result = $defaultItem->endOfDay($item);
+
+        $this->assertEquals(
+            new DefaultItem(
+                new Item(DegradableItem::ITEM_RANDOM, -4, 1),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testQualityIsNeverNegativeConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_RANDOM, 10, 1);
+
+        $defaultItem = new DefaultItem($item, DegradableItem::IS_CONJURED);
+        $result = $defaultItem->endOfDay($item);
+
+        $this->assertEquals(
+            new DefaultItem(
+                new Item(DegradableItem::ITEM_RANDOM, 9, 0),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testAgedBrieIncreasesQualityTheOlderItGetsConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_AGED_BRIE, 10, 3);
+
+        $agedBrie = new AgedBrie($item, DegradableItem::IS_CONJURED);
+        $result = $agedBrie->endOfDay($item);
+
+        $this->assertEquals(
+            new AgedBrie(
+                new Item(DegradableItem::ITEM_AGED_BRIE, 9, 5),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Sulfuras has always quality 80
+     */
+    public function testSulfurasIsLegendaryConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_SULFURAS, null, 8);
+
+        $sulfuras = new Sulfuras($item, DegradableItem::IS_CONJURED);
+        $result = $sulfuras->endOfDay($item);
+
+        $this->assertEquals(
+            new Sulfuras(
+                new Item(DegradableItem::ITEM_SULFURAS, null, 8),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testQualityNeverMoreThan50Conjured()
+    {
+        $item = new Item(DegradableItem::ITEM_AGED_BRIE, 6, 50);
+
+        $agedBrie = new AgedBrie($item, DegradableItem::IS_CONJURED);
+        $result = $agedBrie->endOfDay();
+
+        $this->assertEquals(
+            new AgedBrie(
+                new Item(DegradableItem::ITEM_AGED_BRIE, 5, 50),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testSulfurasHasAlwaysQuality80Conjured()
+    {
+        $item = new Item(DegradableItem::ITEM_SULFURAS, null, 80);
+
+        $sulfuras = new Sulfuras($item, DegradableItem::IS_CONJURED);
+        $result = $sulfuras->endOfDay();
+
+        $this->assertEquals(
+            new Sulfuras(
+                new Item(DegradableItem::ITEM_SULFURAS, null, 80),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testBackstagePassesIncreasesQualityConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 30, 20);
+
+        $backstagePasses = new BackstagePasses($item, DegradableItem::IS_CONJURED);
+        $result = $backstagePasses->endOfDay();
+
+        $this->assertEquals(
+            new BackstagePasses(
+                new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 29, 22),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testBackstagePassesIncreasesQualityBy2When10DaysOrLessConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 10, 25);
+
+        $backstagePasses = new BackstagePasses($item, DegradableItem::IS_CONJURED);
+        $result = $backstagePasses->endOfDay();
+
+        $this->assertEquals(
+            new BackstagePasses(
+                new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 9, 29),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testBackstagePassesIncreasesQualityBy3When5DaysOrLessConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 5, 14);
+
+        $backstagePasses = new BackstagePasses($item, DegradableItem::IS_CONJURED);
+        $result = $backstagePasses->endOfDay();
+
+        $this->assertEquals(
+            new BackstagePasses(
+                new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 4, 20),
+                DegradableItem::IS_CONJURED
+            ),
+            $result
+        );
+    }
+
+    public function testBackstagePassesQualityGoesTo0AfterConcertConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, 0, 14);
+
+        $backstagePasses = new BackstagePasses($item, DegradableItem::IS_CONJURED);
+        $result = $backstagePasses->endOfDay();
+
+        $this->assertEquals(
+            new BackstagePasses(
+                new Item(DegradableItem::ITEM_BACKSTAGE_PASSES, -1, 0),
+                DegradableItem::IS_CONJURED
+            ),
             $result
         );
     }

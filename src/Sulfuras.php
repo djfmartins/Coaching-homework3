@@ -9,7 +9,7 @@ class Sulfuras extends DegradableItem
             throw new Exception("Sulfuras has always quality 80");
         }
 
-        return new self($this->item);
+        return new self($this->item, $this->isConjured);
     }
 
 
