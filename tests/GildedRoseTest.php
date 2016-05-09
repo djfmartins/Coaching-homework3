@@ -63,11 +63,11 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
     {
         $item = new Item(GildedRose::ITEM_SULFURAS, null, 8);
 
-        $gildedRose = new GildedRose();
-        $result = $gildedRose->endOfDay($item);
+        $sulfuras = new Sulfuras($item);
+        $result = $sulfuras->endOfDay($item);
 
         $this->assertEquals(
-            new Item(GildedRose::ITEM_SULFURAS, null, 8),
+            new Sulfuras(new Item(GildedRose::ITEM_SULFURAS, null, 8)),
             $result
         );
     }
