@@ -6,16 +6,23 @@ abstract class DegradableItem
     const ITEM_AGED_BRIE = "Aged Brie";
     const ITEM_SULFURAS = "Sulfuras";
     const ITEM_BACKSTAGE_PASSES = "Backstage passes";
-    
+
+    const IS_CONJURED = true;
+
     /** @var Item */
     protected $item;
 
+    /** @var bool */
+    protected $isConjured;
+
     /**
      * @param Item $item
+     * @param bool $isConjured
      */
-    public function __construct(Item $item)
+    public function __construct(Item $item, $isConjured = false)
     {
         $this->item = $item;
+        $this->isConjured = $isConjured;
     }
 
     /**
@@ -24,6 +31,10 @@ abstract class DegradableItem
     public function endOfDay()
     {
         $quality = $this->calculateQualityAtEndOfDay();
+
+        if ($this->isConjured) {
+            $quality = $this->applyQualityChangeAgain($quality);
+        }
 
         $quality = $quality < 0 ? 0 : $quality;
         $quality = $quality > 50 ? 50 : $quality;
@@ -35,4 +46,17 @@ abstract class DegradableItem
     }
 
     abstract function calculateQualityAtEndOfDay();
+
+    /**
+     * @param int $quality
+     * 
+     * @return int
+     */
+    private function applyQualityChangeAgain($quality)
+    {
+        $currentQuality = $this->item->quality;
+        $changeOfQuality = $currentQuality - $quality;
+
+        return $quality - $changeOfQuality;
+    }
 }

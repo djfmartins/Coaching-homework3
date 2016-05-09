@@ -149,4 +149,19 @@ class GildedRoseTest extends PHPUnit_Framework_TestCase
             $result
         );
     }
+
+
+
+    public function testDefaultItemEndOfDayConjured()
+    {
+        $item = new Item(DegradableItem::ITEM_RANDOM, 5, 5);
+
+        $defaultItem = new DefaultItem($item, DegradableItem::IS_CONJURED);
+        $result = $defaultItem->endOfDay($item);
+
+        $this->assertEquals(
+            new DefaultItem(new Item(DegradableItem::ITEM_RANDOM, 4, 3)),
+            $result
+        );
+    }
 }

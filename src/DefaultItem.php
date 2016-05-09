@@ -15,5 +15,4 @@ class DefaultItem extends DegradableItem
         
         return $newQuality;
     }
-
 }
